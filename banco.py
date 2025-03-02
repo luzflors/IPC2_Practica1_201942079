@@ -1,28 +1,41 @@
 from cuentas import Cuenta_Ahorro
 from cuentas import Cuenta_Monetaria
 
-class Nuevo:
+class Banco:
     def __init__(self):
         self._listaCuentaMonetaria = []
         self._listaCuentaAhorro = []
 
     def Menu(self):
-        print(f"====================================================")
-        print(f"|          *         Menu Banco       *            |")
-        print(f"====================================================")
-        print(f"| 1. Abrir Cuenta                                  |")
-        print(f"| 2. Gestionar Cuenta                              |")
-        print(f"| 3. Salir                                         |")
-        print(f"====================================================")
-        opcion = input(f"\nSeleccione opcion: ").strip().upper()
-        while opcion not in (1,2,3):
-            opcion = input(f"Numero invalido \Seleccione una opcion valida: ").strip().upper()
-        if opcion == 1:
-            self.AbrirCuenta()
-        elif opcion == 2:
-            self.GestionarCuenta()
-        else:
-            print(f"Bye")
+        while True:
+            print(f"====================================================")
+            print(f"|          *         Menu Banco       *            |")
+            print(f"====================================================")
+            print(f"| 1. Abrir Cuenta                                  |")
+            print(f"| 2. Gestionar Cuenta                              |")
+            print(f"| 3. Salir                                         |")
+            print(f"====================================================")
+            
+            try:
+                opcion = int(input(f"\nSeleccione opcion: ").strip())
+            except ValueError:
+                print("Error: Debe ingresar un número.")
+                continue
+            
+            while opcion not in (1, 2, 3):
+                try:
+                    opcion = int(input(f"Numero invalido. Seleccione una opcion valida: ").strip())
+                except ValueError:
+                    print("Error: Debe ingresar un número.")
+                    continue
+
+            if opcion == 1:
+                self.AbrirCuenta()
+            elif opcion == 2:
+                self.GestionarCuenta()
+            elif opcion == 3:
+                print(f"Bye")
+                break
 
     def AbrirCuenta(self):
         print(f"====================================================")
@@ -32,28 +45,54 @@ class Nuevo:
         print(f"| 2. Cuenta monetaria                              |")
         print(f"| 3. Regresar                                      |")
         print(f"====================================================")
-        opcion = input(f"\nSeleccione opcion: ").strip().upper()
-        while opcion not in (1,2,3):
-            opcion = input(f"Numero invalido \Seleccione una opcion valida: ").strip().upper()
+        
+        try:
+            opcion = int(input(f"\nSeleccione opcion: ").strip())
+        except ValueError:
+            print("Error: Debe ingresar un número.")
+            return
+
+        while opcion not in (1, 2, 3):
+            try:
+                opcion = int(input(f"Numero invalido. Seleccione una opcion valida: ").strip())
+            except ValueError:
+                print("Error: Debe ingresar un número.")
+                return
 
         if opcion == 1 or opcion == 2:
             if opcion == 1:
-                print("------------ Abrir cuenta de Ahorro ------------")
+                print("\n------------ Abrir cuenta de Ahorro ------------")
             else:
-                print("------------ Abrir cuenta Monetaria ------------")
+                print("\n------------ Abrir cuenta Monetaria ------------")
             
             titular = input(f"\nIngresar titular: ").strip().upper()     
-            saldo = float(input("Ingresar saldo: "))
 
-        if opcion == 1:
-            interes = float(input("Ingrese porcentaje de interes: "))
-            self.listaCuentaAhorro.append(Cuenta_Ahorro(titular, saldo, interes))
-        elif opcion == 2:
-            limiteCredito = float(input("Ingrese limite de credito: "))
-            self.listaCuentaMonetaria.append(Cuenta_Monetaria(titular, saldo, limiteCredito))
-        else:
+            try:
+                saldo = float(input("Ingresar saldo: "))
+            except ValueError:
+                print("Error: Debe ingresar un saldo válido.")
+                return
+
+            if opcion == 1:
+                try:
+                    interes = float(input("Ingrese porcentaje de interes: "))
+                except ValueError:
+                    print("Error: Debe ingresar un porcentaje de interés válido.")
+                    return
+                self._listaCuentaAhorro.append(Cuenta_Ahorro(titular, saldo, interes))
+                print("Cuenta de ahorro creada exitosamente.")
+            elif opcion == 2:
+                try:
+                    limiteCredito = float(input("Ingrese limite de credito: "))
+                except ValueError:
+                    print("Error: Debe ingresar un límite de crédito válido.")
+                    return
+                self._listaCuentaMonetaria.append(Cuenta_Monetaria(titular, saldo, limiteCredito))
+                print("Cuenta monetaria creada exitosamente.")
+
+        elif opcion == 3:
             print(f"\nRegresando...\n")
-   
+            return 
 
     def GestionarCuenta(self):
         print("====================================================")
@@ -65,26 +104,58 @@ class Nuevo:
         print("| 4. Calcular interes (Solo Cuenta de Ahorro)      |")
         print("| 5. Regresar                                      |")
         print("====================================================")
-        opcion = input(f"\nSeleccione opcion: ").strip().upper()
-        while opcion not in (1,2,3,4,5):
-            opcion = input(f"Numero invalido \Seleccione una opcion valida: ").strip().upper()
+        
+        try:
+            opcion = int(input(f"\nSeleccione opcion: ").strip())
+        except ValueError:
+            print("Error: Debe ingresar un número.")
+            return
+
+        while opcion not in (1, 2, 3, 4, 5):
+            try:
+                opcion = int(input(f"Numero invalido \Seleccione una opcion valida: ").strip())
+            except ValueError:
+                print("Error: Debe ingresar un número.")
+                return
+
         if opcion == 1:
-            print("------------ Ver Informacion de Cuentas ------------")
+            print("\n------------ Ver Informacion de Cuentas ------------")
             self.verInformacion()
-            return
         elif opcion == 2:
-            print("------------ Depositos ------------")
+            print("\n------------ Depositos ------------")
             self.depositarCuentas()
-            return
         elif opcion == 3:
-            print("------------ Retiros ------------")
+            print("\n------------ Retiros ------------")
             self.retirarCuentas()
-            opcion = 5
-            return
         elif opcion == 4:
-            print("------------ Calculo de interes ------------")
-            self.calcularInteres()
-            return
+            print("\n------------ Calculo de interes ------------")
+            if self._listaCuentaAhorro:
+                i = 1
+                for cuenta_Ahorro in self._listaCuentaAhorro:
+                    print("Cuenta numero: " + str(i))
+                    print(cuenta_Ahorro.datosCuenta())
+                    cuenta_Ahorro.generadorIntereses()
+                    print("Intereses:" + str(cuenta_Ahorro.intereses))
+                    print("\nAgregamos los intereses a la cuenta? \n1. Si \n2. No")
+                    try:
+                        opcion = int(input(f"\nSeleccione opcion: ").strip())
+                    except ValueError:
+                        print("Error: Debe ingresar un número.")
+                        return
+                    while opcion not in (1, 2):
+                        try:
+                            opcion = int(input(f"Numero invalido \Seleccione una opcion valida: ").strip())
+                        except ValueError:
+                            print("Error: Debe ingresar un número.")
+                            return
+                    if opcion == 1:
+                        cuenta_Ahorro.saldo += cuenta_Ahorro.intereses
+                        print(f"Transaccion exitosa. \nNuevo saldo: {cuenta_Ahorro.saldo}")
+                    if opcion == 2:
+                        print(f"Ok")
+                    i += 1  
+            else:
+                print("No existen cuentas")
         else:
             print(f"\nRegresando...\n")
 
@@ -107,109 +178,146 @@ class Nuevo:
     def depositarCuentas(self):
         if self._listaCuentaAhorro or self._listaCuentaMonetaria:
             print("\nA que tipo de cuenta desea depositar? \n1. Ahorro \n2. Monetaria")
-            opcion = input(f"\nSeleccione opcion: ").strip().upper()
-            while opcion not in (1,2,3,4,5):
-                opcion = input(f"Numero invalido \Seleccione una opcion valida: ").strip().upper()
-                if self._listaCuentaAhorro and self.opcion == 1:
+            try:
+                opcion = int(input(f"\nSeleccione opcion: ").strip())
+            except ValueError:
+                print("Error: Debe ingresar un número.")
+                return
+
+            while opcion not in (1, 2):
+                try:
+                    opcion = int(input(f"Numero invalido \Seleccione una opcion valida: ").strip())
+                except ValueError:
+                    print("Error: Debe ingresar un número.")
+                    return
+
+            if opcion == 1:
+                if self._listaCuentaAhorro:
                     if len(self._listaCuentaAhorro) > 1:
                         print("\n**********   Cuentas de Ahorro  **********")
                         i = 1
-                        for cuenta_Ahorro in self._listaCuentaAhorro:
-                            print(str(i) + ". " + cuenta_Ahorro.datosCuenta())
-                            i += 1
-                        print("\nQue cuenta de Ahorro? ")
-                        print("\nSeleccione opcion: ")
-                        self.opcion = int(input())
-                    else:
-                        self.opcion = 1
-                    print("\nIngrese monto a depositar: ")
-                    montoDeposito = float(input())
-                    if self.opcion > 0 and self.opcion <= len(self._listaCuentaAhorro):
-                        self._listaCuentaAhorro[self.opcion - 1].depositos(montoDeposito)
-                    else:
-                        print("Numero incorrecto")
-                elif not self._listaCuentaAhorro:
-                    print("No existen cuentas de ahorro")
-
-                if self._listaCuentaMonetaria and self.opcion == 2:
-                    print("\n**********   Cuentas Monetarias  **********")
-                    if len(self._listaCuentaMonetaria) > 1:
-                        for cuenta_Monetaria in self._listaCuentaMonetaria:
-                            i = 1
+                        for cuenta_Monetaria in self._listaCuentaAhorro:
                             print(str(i) + ". " + cuenta_Monetaria.datosCuenta())
                             i += 1
-                        print("\nA cual cuenta de Monetaria? ")
-                        print("\nSeleccione opcion: ")
-                        self.opcion = int(input())
+                        print("\nQue cuenta de Ahorro? ")
+                        try:
+                            opcion = int(input(f"\nSeleccione opcion: ").strip())
+                        except ValueError:
+                            print("Error: Debe ingresar un número.")
+                            return
+
+                    try:
+                        montoDeposito = float(input("\nIngrese monto a depositar: ").strip())
+                    except ValueError:
+                        print("Error: Debe ingresar un monto válido.")
+                        return
+                    
+                    if opcion > 0 and opcion <= len(self._listaCuentaAhorro):
+                        opcion -= 1
                     else:
-                        self.opcion = 1
-                    print("\nIngrese monto a depositar: ")
-                    montoDeposito = float(input())
-                    if self.opcion > 0 and self.opcion <= len(self._listaCuentaMonetaria):
-                        self._listaCuentaMonetaria[self.opcion - 1].depositos(montoDeposito)
+                        opcion = 0
+                    self._listaCuentaAhorro[opcion].retiros(montoDeposito)
+                else:
+                    print("No existen cuentas de ahorro")
+            elif opcion == 2:
+                if self._listaCuentaMonetaria:
+                    if len(self._listaCuentaMonetaria) > 1:
+                        print("\n**********   Cuentas Monetairas  **********")
+                        i = 1
+                        for cuenta_Monetaria in self._listaCuentaMonetaria:
+                            print(str(i) + ". " + cuenta_Monetaria.datosCuenta())
+                            i += 1
+                        print("\nQue cuenta de Ahorro? ")
+                        try:
+                            opcion = int(input(f"\nSeleccione opcion: ").strip())
+                        except ValueError:
+                            print("Error: Debe ingresar un número.")
+                            return
+
+                    try:
+                        montoDeposito = float(input("\nIngrese monto a depositar: ").strip())
+                    except ValueError:
+                        print("Error: Debe ingresar un monto válido.")
+                        return
+                    
+                    if opcion > 0 and opcion <= len(self._listaCuentaMonetaria):
+                        opcion -= 1
                     else:
-                        print("Numero incorrecto")
-                elif not self._listaCuentaMonetaria:
-                    print("No existen cuentas monetarias")
-        else:
-            print("No existen cuentas de ahorro ni monetarias")
+                        opcion = 0
+                    self._listaCuentaMonetaria[opcion].retiros(montoDeposito)
+                else:
+                    print("No existen cuentas Monetarias")
 
     def retirarCuentas(self):
         if self._listaCuentaAhorro or self._listaCuentaMonetaria:
             print("\nA que tipo de cuenta desea retirar? \n1. Ahorro \n2. Monetaria")
-            opcion = input(f"\nSeleccione opcion: ").strip().upper()
-            while opcion not in (1,2,3,4,5):
-                opcion = input(f"Numero invalido \Seleccione una opcion valida: ").strip().upper()
-                if self._listaCuentaAhorro and self.opcion == 1:
+            try:
+                opcion = int(input(f"\nSeleccione opcion: ").strip())
+            except ValueError:
+                print("Error: Debe ingresar un número.")
+                return
+
+            while opcion not in (1, 2):
+                try:
+                    opcion = int(input(f"Numero invalido \Seleccione una opcion valida: ").strip())
+                except ValueError:
+                    print("Error: Debe ingresar un número.")
+                    return
+
+            if opcion == 1:
+                if self._listaCuentaAhorro:
                     if len(self._listaCuentaAhorro) > 1:
                         print("\n**********   Cuentas de Ahorro  **********")
                         i = 1
-                        for cuenta_Ahorro in self._listaCuentaAhorro:
-                            print(str(i) + ". " + cuenta_Ahorro.datosCuenta())
-                            i += 1
-                        print("\nQue cuenta de Ahorro? ")
-                        print("\nSeleccione opcion: ")
-                        self.opcion = int(input())
-                    else:
-                        self.opcion = 1
-                    print("\nIngrese monto a retirar: ")
-                    montoDeposito = float(input())
-                    if self.opcion > 0 and self.opcion <= len(self._listaCuentaAhorro):
-                        self._listaCuentaAhorro[self.opcion - 1].retiros(montoDeposito)
-                    else:
-                        print("Numero incorrecto")
-                elif not self._listaCuentaAhorro:
-                    print("No existen cuentas de ahorro")
-
-                if self._listaCuentaMonetaria and self.opcion == 2:
-                    print("\n**********   Cuentas Monetarias  **********")
-                    if len(self._listaCuentaMonetaria) > 1:
-                        for cuenta_Monetaria in self._listaCuentaMonetaria:
-                            i = 1
+                        for cuenta_Monetaria in self._listaCuentaAhorro:
                             print(str(i) + ". " + cuenta_Monetaria.datosCuenta())
                             i += 1
-                        print("\nA cual cuenta de Monetaria? ")
-                        print("\nSeleccione opcion: ")
-                        self.opcion = int(input())
-                    else:
-                        self.opcion = 1
-                    print("\nIngrese monto a depositar: ")
-                    montoDeposito = float(input())
-                    if self.opcion > 0 and self.opcion <= len(self._listaCuentaMonetaria):
-                        self._listaCuentaMonetaria[self.opcion - 1].retiros(montoDeposito)
-                    else:
-                        print("Numero incorrecto")
-                elif not self._listaCuentaMonetaria:
-                    print("No existen cuentas monetarias")
-        else:
-            print("No existen cuentas de ahorro ni monetarias")
+                        print("\nQue cuenta de Ahorro? ")
+                        try:
+                            opcion = int(input(f"\nSeleccione opcion: ").strip())
+                        except ValueError:
+                            print("Error: Debe ingresar un número.")
+                            return
 
-    def calcularInteres(self):
-        if self._listaCuentaAhorro():
-            for cuenta_Ahorro in self._listaCuentaAhorro:
-                print(cuenta_Ahorro.datosCuenta())
-                print("Interes calculado: " + str(cuenta_Ahorro.calcularInteres()))
-                print("Saldo Nuevo: " + str(cuenta_Ahorro.saldo))
-        else:
-            print("No existen cuentas de ahorro")
-    
+                    try:
+                        montoRetirar = float(input("\nIngrese monto a retirar: ").strip())
+                    except ValueError:
+                        print("Error: Debe ingresar un monto válido.")
+                        return
+                    
+                    if opcion > 0 and opcion <= len(self._listaCuentaAhorro):
+                        opcion -= 1
+                    else:
+                        opcion = 0
+                    self._listaCuentaAhorro[opcion].retiros(montoRetirar)
+                else:
+                    print("No existen cuentas de ahorro")
+
+            if opcion == 2:
+                if self._listaCuentaMonetaria:
+                    if len(self._listaCuentaMonetaria) > 1:
+                        print("\n**********   Cuentas Monetairas  **********")
+                        i = 1
+                        for cuenta_Monetaria in self._listaCuentaMonetaria:
+                            print(str(i) + ". " + cuenta_Monetaria.datosCuenta())
+                            i += 1
+                        print("\nQue cuenta de Ahorro? ")
+                        try:
+                            opcion = int(input(f"\nSeleccione opcion: ").strip())
+                        except ValueError:
+                            print("Error: Debe ingresar un número.")
+                            return
+
+                    try:
+                        montoRetirar = float(input("\nIngrese monto a retirar: ").strip())
+                    except ValueError:
+                        print("Error: Debe ingresar un monto válido.")
+                        return
+                    
+                    if opcion > 0 and opcion <= len(self._listaCuentaMonetaria):
+                        opcion -= 1
+                    else:
+                        opcion = 0
+                    self._listaCuentaMonetaria[opcion].retiros(montoRetirar)
+                else:
+                    print("No existen cuentas Monetarias")

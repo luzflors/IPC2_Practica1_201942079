@@ -51,18 +51,26 @@ class Cuenta_Monetaria(Cuenta):
         if self.saldo < monto:
             faltante = monto - self.saldo
             if faltante <= self._limite_credito:
-                opcion = input("Desea retirar de su crédito? (S/N): ").strip().upper()
-                while opcion not in ('S', 'N'):
-                    opcion = input("Opción incorrecta. Intente nuevamente (S/N): ").strip().upper()
-                if opcion == 'S':
+                print("\nQuiere retirar de su crédito? \n1. Si \n2. No")
+                try:
+                    opcion = int(input(f"\nSeleccione opcion: ").strip())
+                except ValueError:
+                    print("Error: Debe ingresar un número.")
+                    return
+                while opcion not in (1, 2):
+                    try:
+                        opcion = int(input(f"Numero invalido. Seleccione una opcion valida: ").strip())
+                    except ValueError:
+                        print("Error: Debe ingresar un número.")
+                        return
+                if opcion == 1:
                     self.saldo = 0
                     self._credito -= faltante
                     print(f"Transaccion exitosa. \nNuevo saldo: {self.saldo}")
-                    
                 else:
-                    print(f"Saldo insuficiente. \nTransaccion invalida")
+                    print("Saldo insuficiente. \nTransaccion invalida")
             else:
-                print(f"Credito insuficiente. \nTransaccion invalida")
+                print("Credito insuficiente. \nTransaccion invalida")
         else:
             self.saldo -= monto
             print(f"Transaccion exitosa. \nNuevo saldo: {self.saldo}")
@@ -79,28 +87,30 @@ class Cuenta_Monetaria(Cuenta):
                 self.saldo += (monto - faltante)
         print(f"Transaccion exitosa. \nNuevo saldo: {self.saldo}")
 
-
-
 class Cuenta_Ahorro(Cuenta):
     def __init__(self, titular, saldo, tasa):
         super().__init__(titular, saldo)
         self._tasa = tasa
+        self._intereses = 0
 
     @property
     def tasa(self):
         return self._tasa
 
-    def calcularInteres(self):
-        intresesSaldo = self.saldo * (self.tasa / 100)
-        self.saldo += intresesSaldo
-        return intresesSaldo
+    @property
+    def intereses(self):
+        return self._intereses 
+    
+    def generadorIntereses(self):
+        self._intereses = self.saldo * (self._tasa/100) 
     
     def retiros(self, monto):
-        if(monto <= self.saldo):
+        if monto <= self.saldo:
             self.saldo -= monto
             print(f"Transacción exitosa.\nNuevo saldo: {self.saldo}")
         else:
-            print(f"Saldo insuficiente. \nTransaccion Invalida")
+            print("Saldo insuficiente. \nTransaccion Invalida")
 
     def depositos(self, monto):
         self.saldo += monto
+        print(f"Transacción exitosa.\nNuevo saldo: {self.saldo}")

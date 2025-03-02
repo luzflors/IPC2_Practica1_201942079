@@ -1,8 +1,8 @@
-from banco import Nuevo
+from banco import Banco
 
 class Main:
     def __init__(self):
-        banco = Nuevo()
+        banco = Banco()
         banco.Menu()
 
 # Bloque principal
