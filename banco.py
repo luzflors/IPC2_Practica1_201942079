@@ -34,7 +34,7 @@ class Banco:
             elif opcion == 2:
                 self.GestionarCuenta()
             elif opcion == 3:
-                print(f"Bye")
+                print(f"Saliendo del sistema. ¡Que tenga un buen día!")
                 break
 
     def AbrirCuenta(self):
@@ -152,7 +152,7 @@ class Banco:
                         cuenta_Ahorro.saldo += cuenta_Ahorro.intereses
                         print(f"Transaccion exitosa. \nNuevo saldo: {cuenta_Ahorro.saldo}")
                     if opcion == 2:
-                        print(f"Ok")
+                        print(f"No se realizaron cambios.")
                     i += 1  
             else:
                 print("No existen cuentas")
@@ -216,7 +216,7 @@ class Banco:
                         opcion -= 1
                     else:
                         opcion = 0
-                    self._listaCuentaAhorro[opcion].retiros(montoDeposito)
+                    self._listaCuentaAhorro[opcion].depositos(montoDeposito)
                 else:
                     print("No existen cuentas de ahorro")
             elif opcion == 2:
@@ -244,7 +244,7 @@ class Banco:
                         opcion -= 1
                     else:
                         opcion = 0
-                    self._listaCuentaMonetaria[opcion].retiros(montoDeposito)
+                    self._listaCuentaMonetaria[opcion].despositos(montoDeposito)
                 else:
                     print("No existen cuentas Monetarias")
 
