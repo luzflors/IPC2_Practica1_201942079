@@ -1,0 +1,66 @@
+@startuml flujo_sistema
+
+|Usuario|
+start
+:Seleccionar Opción;
+|Main|
+:Mostrar menú principal;
+:Leer opción (1 a 5);
+
+if (Opción == 1?) then (Sí)
+    :iniciarSistema() -> Limpia listas;
+    :Retornar al menú principal;
+else (No)
+  if (Opción == 2?) then (Sí)
+    |Carga de archivo|
+    :Solicitar ruta de archivo XML;
+    :Leer y parsear archivo;
+    :Estructurar rejilla y parejas;
+    if (¿Conflicto de nombre?) then (Sí)
+      :Sobrescribir datos;
+    else (No)
+    endif
+    :Mostrar experimentos cargados;
+    |Lista|
+    :insertar() en la lista;
+    :Regresar al menú principal;
+  else (No)
+    if (Opción == 3?) then (Sí)
+      |Procesamiento|
+      :Solicitar nombre del experimento;
+      if (¿Existe en la lista?) then (Sí)
+        :Crear lista enlazada de proteínas;
+        :Buscar parejas y marcarlas inertes;
+        :Generar resultados;
+        |Generador de gráficas|
+        :Solicitar nombre de experimento;
+        if (¿Existe?) then (Sí)
+          :Generar gráfica inicial;
+          if (¿Se procesó la rejilla?) then (Sí)
+            :Generar gráfica final;
+          else (No)
+          endif
+        else (No)
+        endif
+        :Regresar al menú principal;
+      else (No)
+        :Regresar al menú principal;
+      endif
+    else (No)
+      if (Opción == 4?) then (Sí)
+        |Lista|
+        :Mostrar datos del estudiante;
+        :Regresar al menú principal;
+      else (No)
+        if (Opción == 5?) then (Sí)
+          stop
+        else (No)
+          :Opción inválida;
+          :Regresar al menú principal;
+        endif
+      endif
+    endif
+  endif
+endif
+
+@enduml
