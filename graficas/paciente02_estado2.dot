@@ -1,0 +1,31 @@
+digraph G {
+	rankdir = LR;
+	label="Estado: 2"
+	labelloc=t;
+	node [shape = plaintext, width=3, height=2];
+	estado [label = <
+		<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+			<TR><TD></TD><TD>1</TD><TD>2</TD><TD>3</TD><TD>4</TD></TR>
+			<TR>
+				<TD CELLPADDING='5'>1</TD>
+				<TD BGCOLOR='red'>AGVST</TD>
+				<TD BGCOLOR='red'>LEGAG</TD>
+				<TD>KRRRL</TD>
+				<TD>MNPQR</TD>
+			</TR>
+			<TR>
+				<TD CELLPADDING='5'>2</TD>
+				<TD>TUVWX</TD>
+				<TD>YZABC</TD>
+				<TD>DEFGH</TD>
+				<TD>IJKLM</TD>
+			</TR>
+			<TR>
+				<TD CELLPADDING='5'>3</TD>
+				<TD>NOPQR</TD>
+				<TD>STUVW</TD>
+				<TD>XYZA1</TD>
+				<TD>23456</TD>
+			</TR>
+		</TABLE>>];
+}

@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<experimentos>
+    <experimento nombre = "Prueba01">
+        <tejido filas = "5" columnas ="5">
+            <rejilla>
+                LAV LAV VAL VAL VAL
+                VAR RAV GHI VAL VAL
+                LAV AVL ALV LAV LAV
+                VAL ILL KEQ DCC LAV
+                VAR ILL KQA CDC LAV
+            </rejilla>
+        </tejido>
+        <proteinas>
+            <pareja>
+                LAV VAL
+            </pareja>
+        </proteinas>
+    </experimento>
+</experimentos>
